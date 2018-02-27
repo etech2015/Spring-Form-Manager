@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h3>Spring Form Manager</h3>
+
+<br>
+
+<form action="#" th:action="@{/addUser}" th:object="${user}"
+      style="width:800px; margin:0 auto;" method="post">
+    <p>User Id: <input type="text" th:field="*{userId}"/></p>
+    <p>User Name: <input type="text" th:field="*{userName}"/></p>
+    <p>User Email:<input type="text" th:field="*{userEmail}"/></p>
+    <p>User Salary:<input type="text" th:field="*{userSalary}"/></p>
+
+
+    <!-- Drop down -->
+
+    <label for="UserTypeSelected">User Type: </label>
+    <select th:field="${user.userType}" id="UserTypeSelected">
+        <option th:each="usertype : ${allUserType}"
+                th:value="${usertype.userTypeId}"
+                th:text="${usertype.userTypeName}"></option>
+    </select>
+
+
+
+    <p>
+        <input type="submit" value="Submit"/>
+    </p>
+</form>
+
+
+</br>
+<div style="width:800px; margin:0 auto;">
+    <table style="width:800px">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th>User Type</th>
+            <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <tr th:each="user,iterStat : ${allUser}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.userEmail}"></td>
+            <td th:text="${user.userSalary}"></td>
+            <td th:text="${user.userType.userTypeName}"></td>
+
+            <td>
+                <a th:href="@{/delete/{id}(id=${user.userId})}">Delete</a>
+                <a th:href="@{/edit/{id}(id=${user.userId})}">Edit</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
